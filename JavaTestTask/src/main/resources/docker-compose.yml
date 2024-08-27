@@ -1,0 +1,27 @@
+## YAML Template.
+---
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword  # Replace with a strong password
+      MYSQL_DATABASE: your_database_name  # Replace with your desired database name
+      MYSQL_USER: your_username  # Replace with a non-root user (optional)
+      MYSQL_PASSWORD: your_password  # Replace with a strong password for the user
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:C:\Users\ADMIN\Desktop\DockerProject\app-volume\mysql
+    networks:
+      - my-network
+
+volumes:
+  mysql-data:
+    driver: local
+
+networks:
+  my-network:
+    driver: bridge
