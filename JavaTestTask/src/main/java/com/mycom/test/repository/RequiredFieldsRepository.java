@@ -5,6 +5,7 @@
 package com.mycom.test.repository;
 
 import com.mycom.test.entity.RequiredFields;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +15,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RequiredFieldsRepository extends JpaRepository<RequiredFields, Long> {
+
+    List<RequiredFields> findByRequired(boolean required);
 }

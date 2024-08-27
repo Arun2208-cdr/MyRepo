@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     public List<String> getMissingFields(String firstName, String lastName) {
         User user = userRepository.findByFirstNameAndLastName(firstName, lastName)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        List<RequiredFields> requiredFields = requiredFieldsRepository.findAll();
+        List<RequiredFields> requiredFields = requiredFieldsRepository.findByRequired(true);
         return checkMissingFields(user, requiredFields);
     }
 
@@ -84,6 +84,16 @@ public class UserServiceImpl implements UserService {
                     case "currentAddress":
                         if (user.getCurrentaddress() == null) {
                             missingFields.add("currentAddress");
+                        }
+                        break;
+                    case "firstName":
+                        if (user.getFirstName() == null) {
+                            missingFields.add("firstName");
+                        }
+                        break;
+                    case "lastName":
+                        if (user.getLastName() == null) {
+                            missingFields.add("lastName");
                         }
                         break;
                 }

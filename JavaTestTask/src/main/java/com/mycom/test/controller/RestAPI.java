@@ -31,17 +31,21 @@ public class RestAPI {
 
     @GetMapping("/getMissingFields")
     public ResponseEntity<String> getMissingFields(@RequestParam String firstName, @RequestParam String lastName) {
-        if (StringUtils.isEmpty(firstName) || StringUtils.isEmpty(lastName)) {
-            return new ResponseEntity<>("First name and Last name is mandatory", HttpStatus.BAD_REQUEST);
-        } else {
-            List<String> missingFields = userService.getMissingFields(firstName, lastName);
-            JSONObject obj = new JSONObject();
-            if (missingFields.isEmpty()) {
-                obj.put("missingfields", "None");
+        try {
+            if (StringUtils.isEmpty(firstName) || StringUtils.isEmpty(lastName)) {
+                return new ResponseEntity<>("First name and Last name is mandatory", HttpStatus.BAD_REQUEST);
             } else {
-                obj.put("missingfields", missingFields);
+                List<String> missingFields = userService.getMissingFields(firstName, lastName);
+                JSONObject obj = new JSONObject();
+                if (missingFields.isEmpty()) {
+                    obj.put("missingfields", "None");
+                } else {
+                    obj.put("missingfields", missingFields);
+                }
+                return new ResponseEntity<>(obj.toString(), HttpStatus.OK);
             }
-            return new ResponseEntity<>(obj.toString(), HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
         }
 
     }
